@@ -1,0 +1,305 @@
+@font-face{font-family:"Montserrat-Bold";
+src:url("../fonts/Montserrat-Bold/Montserrat-Bold.eot");
+src:url("../fonts/Montserrat-Bold/Montserrat-Bold.eot?#iefix") format('embeddedopentype'),
+url("../fonts/Montserrat-Bold/Montserrat-Bold.woff2") format("woff2"),
+url("../fonts/Montserrat-Bold/Montserrat-Bold.woff") format("woff"),
+url("../fonts/Montserrat-Bold/Montserrat-Bold.ttf") format("truetype"),
+url("../fonts/Montserrat-Bold/Montserrat-Bold.otf") format("opentype"),
+url("../fonts/Montserrat-Bold/Montserrat-Bold.svg#svgMontserrat-Bold") format("svg");
+font-style:normal;
+font-weight:bold;
+font-display: swap;
+}
+@font-face{font-family:"Montserrat_Medium";
+src:url("../fonts/Montserrat_Medium/Montserrat-Medium.eot");
+src:url("../fonts/Montserrat_Medium/Montserrat-Medium.eot?#iefix") format('embeddedopentype'),
+url("../fonts/Montserrat_Medium/Montserrat-Medium.woff2") format("woff2"),
+url("../fonts/Montserrat_Medium/Montserrat-Medium.woff") format("woff"),
+url("../fonts/Montserrat_Medium/Montserrat-Medium.ttf") format("truetype"),
+url("../fonts/Montserrat_Medium/Montserrat-Medium.otf") format("opentype"),
+url("../fonts/Montserrat_Medium/Montserrat-Medium.svg#svgMontserrat-Medium") format("svg");
+font-style:normal;
+font-weight:normal;
+font-display: swap;
+}
+html, body{
+padding: 0;	
+overflow-x: hidden;
+}
+.container{
+width: 90vw;
+margin:auto;
+max-width: 1366px;
+position: relative;
+
+}
+.game_button{
+display: inline-block;
+color: #000;
+font-family:"Montserrat_Medium";
+font-size: 22px;
+padding: 10px 27px;
+outline: none;
+border: none;
+cursor: pointer;
+-webkit-transition: all 0.8s ease-out;
+-o-transition: all 0.8s ease-out;
+transition: all 0.8s ease-out;
+-webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+-moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+border-radius: 10px;	
+}
+.game_button:hover{
+opacity: 0.6;
+}
+.game_button.grey{
+background-color: #bfbfbf;
+}
+.game_button.blue{
+background-color: #4f81bd;
+color: #fff;	
+}
+.game_button.blue.disabled{
+cursor: not-allowed;
+opacity: .8;
+background-color: #bfbfbf;	
+}
+.image_tutorial{
+display: block;
+margin: 0 auto;
+max-width: 100%;
+margin-top: 30px;
+margin-bottom: 30px;
+}
+#information{
+background-color: transparent;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+}
+.button_block{
+text-align: right;
+}
+.button_block.tutorial{
+text-align: center;	
+}
+.quant_field{
+background-color: #4f81bd;
+min-height: 100vh;
+padding: 0;
+}
+p.tutorial_text{
+margin-bottom: 40px;
+font-family:"Montserrat_Medium";
+font-size: 22px;
+text-align: center;
+line-height: 27px;
+color: #000;
+margin-top: 0;
+}
+p.tutorial_title_text{
+margin-bottom: 50px;
+font-family:"Montserrat-Bold";
+font-size: 30px;
+text-align: center;
+line-height: 1.23;
+color: #000;
+margin-top: 0;	
+text-transform: uppercase;
+}
+.tutorial_block,
+.tutorial_block2
+{
+padding: 0;
+display: none;
+}
+.tutorial_page{
+background-image: url('../img/game_bg.jpg');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+min-height: 100vh;
+padding: 0;
+position: relative;
+padding-top: 30px;
+padding-bottom: 30px;
+}
+#close{
+text-align: right;
+font-size: 30px;
+font-family:"Montserrat-Bold";
+color: #fff;
+cursor: pointer;
+position: absolute;
+top: 0;
+right: 20px;
+z-index: 3;
+}
+.tutorial_block.active,
+.tutorial_block2.active{
+display: block;
+}
+#first_tutorial_show,
+#second_tutorial_show{
+position: fixed;
+z-index: 2;
+top: 0;
+right: 0;
+left:0;
+margin: 0 auto;	
+display: none;
+}
+#first_tutorial_table{
+margin: 0 auto;
+}
+.white_quant{
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background-color: #fff;
+margin: 20px;
+/*border: 34px solid #ffd700;*/
+}
+.black_quant{
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background-color: #000;
+margin: 20px;
+/*border: 1px solid #000;*/
+}
+.sup_quant{
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background-color: #bfbfbf;
+margin: 20px;
+/*border: 1px solid #000;*/
+}
+
+.black_quant.mini, 
+.sup_quant.mini,
+.white_quant.mini{
+width: 25px;
+height: 25px;
+margin: 8px;
+}
+.blue{
+color: #4f81bd;
+}
+.game_stat{
+color: #fff;
+font-size: 20px;
+font-family:"Montserrat-Bold";
+}
+.stat_block>.game_stat.moves{
+float: right;
+}
+.stat_block{
+margin-top: 20px;
+margin-bottom: 0;
+}
+#box{
+padding-top: 0;
+align-items: center;	
+}
+
+table#game_field, table#game_target{
+text-align: center;	
+/*-webkit-transform: rotate(45deg);
+-ms-transform: rotate(45deg);
+transform: rotate(45deg);*/
+}
+table#game_field{
+margin-top:0;	
+margin: auto;
+}
+
+table#game_target{
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+display: inline-block;
+margin-top: 20px;
+
+}
+td {				
+text-align:center;			
+vertical-align: middle;				
+}
+#box td {
+border:solid 1px #ffd700;
+text-align:center;
+-webkit-transition: all 1.2s ease-out;
+-o-transition: all 1.2s ease-out;
+transition: all 1.2s ease-out;
+}
+#box td:hover {
+background-color: #ddd;
+cursor: pointer;
+}
+
+
+#solution td {
+border:solid 1px gray;
+text-align:center;
+}
+
+#solution{
+display: inline-block;
+margin-bottom: 20px;
+}
+
+#notification_message{
+text-align: center;
+font-size:30px;
+margin-top: 20px;
+margin-bottom: 20px;
+}
+
+#notification_modal{
+position: fixed;
+top: 20%;
+left: 0;
+right:0;
+margin: 0 auto;
+padding: 50px 30px;
+background-image: url('../img/game_bg.jpg');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+-webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+-moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+max-width: 400px;
+display: none;
+z-index: 3;
+border-radius: 20px;
+}
+
+#close_modal{
+text-align: right;
+font-size: 30px;
+font-family:"Montserrat-Bold";
+color: #000;
+cursor: pointer;
+position: absolute;
+top: 0;
+right: 20px;
+z-index: 4;
+}
+
+#overlay{
+background-color: rgba(0,0,0,0.6);
+height: 100vh;
+width: 100vw;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 2;
+padding: 0;
+margin: 0;
+display: none;
+}

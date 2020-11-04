@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<!-- <link rel="shortcut icon" type="image/x-icon" href="img/logo.svg" /> -->
+<title>QUANTUM-DAS SPIEL</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<div id="overlay">
+
+</div>
+	<body class="quant_field">
+		<div class="container">
+		   <div id="solution"></div>
+		   <div class="stat_block">
+				<span class="game_stat">Level <span id="current_level">1</span>/8</span>
+				<span class="game_stat moves">Züge <span id="current_move">0</span>/<span id="max_moves_text">2</span></span>
+		    </div>
+		<div id="box"></div>
+		<div class="button_block">
+			<button class="game_button grey" id="back_move">Rückgängig</button>
+			<button class="game_button" id="information">Info?</button>			
+	   </div>
+		<div class="tutorial_page" id = "first_tutorial_show">
+			<div class="container">
+			<div id="close">x</div>
+			<div class="tutorial_block active">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Du wirst spielerisch lernen, welche Quantengatter es gibt und wie sie funktionieren<br><br> 9 Qubits, die in einem Quadrat angeordnet sind</p>
+			    <img class="image_tutorial" src="img/tutorial/part1/1.png" alt="Tutorial">
+			</div>
+
+
+		    <div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Zustände der Qubitswerden durch die unterschiedlichen Kreise dargestellt</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/2.png" alt="Tutorial">
+			</div>
+
+			<div class="tutorial_block">  
+			<p class="tutorial_title_text">TUTORIAL</p>   
+		     <table id="first_tutorial_table">
+		       <tbody>
+		       	<tr>
+		        <td><div class="white_quant"></div></td>
+		         <td><p  class="tutorial_text">Ein weißer Kreis stellt den Zustand 0 dar</p></td>
+		       	</tr>
+		      <tr>
+		        <td><div class="black_quant"></div></td>
+		         <td><p  class="tutorial_text">Ein schwarzer Kreis stellt den Zustand 1 dar</p></td>
+		       	</tr>
+
+		     <tr>
+		        <td><div class="sup_quant"></div></td>
+		         <td><p  class="tutorial_text">Ein grauer Kreis stellt die Superposition dar
+		         	<br>
+					Einfachheitshalber sollen bei der Superposition<br> 
+					die Zustände 0 und 1 mit einer <br>
+					Wahrscheinlichkeit von je 50% gemessen <br>
+					werden</p></td>
+		       	</tr>
+		       </tbody>
+		     </table>
+			</div>
+
+
+			    <div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Ziel des Spiels ist es mithilfe von <br>
+						Manipulationen mit Quantengattern das <br>
+						Zielmuster, welches eine bestimmte<br> 
+						Information auf dem Quantencomputer <br>
+						darstellt, zu erzeugen</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/4.png" alt="Tutorial">
+			</div>
+
+
+		     <div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Rechts oben werden dir die ideale Anzahl von <br>
+						Zügen angezeigt, die du erreichen musst, um <br>
+						das nächste Level zu erreichen</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/5.png" alt="Tutorial">
+			</div>
+
+
+
+		     <div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Links unten werden dir die Quantengatter <br>
+					angezeigt, die du für das jeweilige Level <br>
+					einsetzen kannst<br>
+					Züge 0 von 2</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/6.png" alt="Tutorial">
+			</div>
+
+
+		     <div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Außerdem kannst du unten auch deinen<br>
+		            letzten Zug wieder rückgängig machen</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/7.png" alt="Tutorial">
+			</div>
+
+
+			<div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Los geht´s!<br>
+				Nun lernst du das erste Quantengatter kennen!<br>
+				Das X-Gatter kehrt den Zustand eines einzelnen Qubitsum, das heißt aus <br>
+				Zustand 0 wird 1 und umgekehrt, und bei der Superposition kehren sich<br> 
+				die Wahrscheinlichkeiten um (für unseren Fall irrelevant)</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/8.png" alt="Tutorial">
+			</div>
+
+
+			<div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Bei unserem Spiel wird das X-Gatter aber (damit es  spannender wird) <br>
+		        gleich auf die gesamte Zeile oder Spalte angewandt.</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/9.png" alt="Tutorial">
+			</div>
+
+
+				<div class="tutorial_block">
+		       <p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Probiere die Funktionsweise mal aus: Klicke hier auf das X-Gatter und wische über eine Zeile oder Spalte, um das Ergebnis zu sehen.</p>
+			     <img class="image_tutorial" src="img/tutorial/part1/10.png" alt="Tutorial">
+			     <p  class="tutorial_text">Sehr gut! Wenn du die Funktionsweise verstanden hast, dann klicke auf den Button „Zu Level 1“, ansonsten kannst du noch rumprobieren, und wenn du so weit bist, kannst du das Level 1 starten.</p>
+
+			</div>
+		       	<div class="button_block tutorial">
+					<button class="game_button  blue disabled" id="back_tutorial" >< Zurück</button>
+					<button class="game_button blue" id="next_tutorial">Weiter ></button>
+			   </div> 
+		    </div> <!-- container -->
+		</div> <!-- first_tutorial -->
+
+<!-- Second tutorial -->
+      <div class="tutorial_page" id = "second_tutorial_show">
+			<div class="container">
+			<div id="close">x</div>
+			<div class="tutorial_block2 active">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Super, das klappt doch schon ganz gut!
+				Jetzt darfst du das nächste Quantengatter erforschen und zwar das H-Gatter. 
+				Das H-Gatter wirkt wieder auf ein einzelnes Qubit, indem aus den Zuständen 0 und 
+				1 die Superposition erzeugt wird.
+				Wird das H-Gatter auf eine Superposition angewandt, so kann der Zustand 0 
+				entstehen (H0-Gatter) oder der Zustand 1 (H1-Gatter)
+				Bei unserem Spiel wird das H-Gatter ebenfalls gleich auf die gesamte Zeile oder 
+				Spalte angewandt.</p>
+			    <img class="image_tutorial" src="img/tutorial/part2/1.png" alt="Tutorial">
+			</div>
+			<div class="tutorial_block2">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Probiere die Funktionsweise mal aus: Klicke hier auf das H0-oder H1-Gatter und 
+               wische über eine Zeile oder Spalte, um das Ergebnis zu sehen..</p>
+			    <img class="image_tutorial" src="img/tutorial/part2/2.png" alt="Tutorial">
+			    <p  class="tutorial_text">Sehr gut! Wenn du die Funktionsweise verstanden hast, dann klicke auf den Button 
+               „Zu Level 3“, ansonsten kannst du noch rumprobieren, und wenn du so weit bist, 
+               kannst du das Level 3 starten.</p>   
+			</div>
+			<div class="tutorial_block2">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Klasse, die Hälfte der Level hast du schon geschafft!
+                Jetzt geht es um ein Quantengatter, das sich gleichzeitig auf zwei Qubitsauswirkt.
+                SWAP -dieses Gatter vertauscht die Zustände von jeweils 2 Qubits.</p> 
+			</div>
+		  <div class="tutorial_block2">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Probiere die Funktionsweise mal aus: Klicke hier auf „SWAP“ und anschließend auf 2 Qubitsnacheinander.</p>
+			    <img class="image_tutorial" src="img/tutorial/part2/2.png" alt="Tutorial"> 
+			    <p  class="tutorial_text">Du siehst: die Zustände der beiden Qubitswurden untereinander vertauscht Sehr gut! Wenn du die Funktionsweise verstanden hast, dann klicke auf den Button „Zu 
+                Level 5“, ansonsten kannst du noch rumprobieren, und wenn du so weit bist, kannst du 
+                das Level 5 starten.</p>
+			</div>
+			<div class="tutorial_block2">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Du bist fast am Ziel, nur noch das letzte Gatter! CNOT-Gatter stellt die Verschränkung von zwei Qubitsdar. Werden zwei Qubits miteinander verschränkt, so wird das sogenannte Zielqubitinvertiert (aus Zustand 1 wird 0 und umgekehrt), wenn das Kontrollqubitden Zustand 1 hat. Das ist gar nicht so einfach, machen wir dazu ein Beispiel</p>
+			</div>
+			<div class="tutorial_block2">
+				<p class="tutorial_title_text">TUTORIAL</p>
+			    <p  class="tutorial_text">Klicke auf CNOT und auf das Qubits(schwarz). Das ist dein Kontrollqubitmit Zustand 1. Klicke nun auf das Qubit(weiß). </p>
+			    <p  class="tutorial_text">Unser Zielqubitist nun schwarz geworden, hat also den Zustand geändert. Ist unser Kontrollqubit0, so ändert sich nichts am Zielqubit Wiederholen CNOT Wenn du die Funktionsweise verstanden hast, dann klicke auf den Button „Zu Level 7“, ansonsten kannst du noch rumprobieren, und wenn du so weit bist, kannst du das Level 7 starten. </p>
+			</div>
+               <div class="button_block tutorial">
+					<button class="game_button  blue disabled" id="back_tutorial" >< Zurück</button>
+					<button class="game_button blue" id="next_tutorial">Weiter ></button>
+			   </div>
+		    </div> <!-- container -->
+		</div> <!-- second_tutorial -->
+
+
+		<div id="notification_modal">
+			<div id="close_modal">x</div>
+          <p id="notification_message"></p>
+		</div>
+
+
+    </div> <!-- container -->
+    <script type="text/javascript" src="js/script.js"></script>
+	</body>	
+</html>
