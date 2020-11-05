@@ -15,10 +15,10 @@ let close =document.getElementById('close');
 let sequence = [[3,2,1], [1,1,2], [1,3,3]];
 let working_sequence = sequence.map(sub => sub.slice());
 let gatter_in_action = 'x_gatter';
+const quants_cells = document.getElementsByClassName('quants_cells');
 let playerGameState = {};
 playerGameState.moves = [];
 playerGameState.moves.push(working_sequence);
-
 
 let solution_sequence = [  [[3,2,2], [2,2,2], [1,3,3]], 
  [[3,1,2], [1,2,1], [2,3,3]], [[2,3,3], [1,2,2], [1,3,3]],
@@ -30,13 +30,12 @@ let solution_sequence = [  [[3,2,2], [2,2,2], [1,3,3]],
 
 let moves =0;
 let level = 0;
-let max_moves = [5,3,2,3,2,2,2,3];
+let max_moves = [2,3,2,3,2,2,2,3];
 let available_moves = max_moves[level];
 let box, solution;
 
 
 function arraysEqual(arr1, arr2) {
-
     for (var i = 0; i < 3; i++) {
     	 for (var j = 0; j < 3; j++) {
         if (arr1[i][j] !== arr2[i][j]){
@@ -49,159 +48,34 @@ function arraysEqual(arr1, arr2) {
 
 }
 
-
-
-
-
 let combination = [];
-
 function cellClick(event) {
+  if(moves>=available_moves){
+    notification_modal.style.display = 'block';
+    notification_message.innerText = 'Du hast die maximale Anzahl von Zügen erreicht. Drücke auf "Rückgängig", um einen Zug zurückzuziehen oder starte den Level erneut.';
+    overlay.style.display = 'block';  
+  }
+   else{
+		let el = event.target || window.event;   
+		if(el.classList.contains('quants')){
+		  el = event.target.parentNode;
+		}
+		if(el.classList.contains('active')){
 
-
-
-let el = event.target || window.event;   
-if(el.classList.contains('quants')){
-  el = event.target.parentNode;
-}
-
-if(el.classList.contains('active')){
-
-  el.classList.remove('active');
-}
-else{
-  el.classList.add('active');	
-}
-
-   let active_line = el.childNodes[0].id.charAt(0);
-	let active_quilbit = el.childNodes[0].id.charAt(2);
-
-	
-	alert(active_line  + '  ' + active_quilbit);
-   
-alert(typeof(active_line));
-
-
-	// alert(active_line + '  ' + active_quilbit);
-
-
-// if(combination.length>0){
-// 	alert('Я есть');
-// alert(combination[0][0]);
-
-// alert(active_line);
-
-// 	if(combination[0][0] =! active_line  || combination[0][1] != active_quilbit){
-//      alert('Разные строки или столбцы!!!')
-// 	}
-// }
-
-
-// if(combination.length == 0){
-	alert("Толкаю");
-combination.push(active_line, active_quilbit);	
-// }
-
-// else{
-
-	// alert(combination[0]  + ' ' + active_line);
- //    alert(combination[1]  + ' ' + active_quilbit);
-
-// if(combination[0] =! active_line  || combination[1] != active_quilbit){
-   
-// }
-
-// }
-
-
-console.log(combination);
-
-// let quantsItems = document.querySelectorAll('.quants'),
-//     index_quant, single_quant;
-//   for (index_quant = 0; index_quant < quantsItems.length; index_quant++) {
-//     single_quant = quantsItems[index_quant];
-//     let active_quant;
-//     single_quant.addEventListener('click', function (event) {
-
-//     	// alert("ghhghghghghg");
-//        active_quant = event.target.parentNode;
-
-//        // console.log(active_quant);
-
-
-//        active_quant.classList.add('active');
-
-//         event.preventDefault();
-//         active_quant = '';
-//     });
-
-//  }
-
-
-
-
-//   if(moves>=available_moves){
-//     notification_modal.style.display = 'block';
-//     notification_message.innerText = 'Du hast die maximale Anzahl von Zügen erreicht. Drücke auf "Rückgängig", um einen Zug zurückzuziehen oder starte den Level erneut.';
-//     overlay.style.display = 'block';  
-//  }
-// else{
-
-
-
-
-// }
-
-
- //    console.log(playerGameState);
-	// let current_state = working_sequence.map(sub => sub.slice());
- //    playerGameState.moves.unshift(current_state);
- //    console.log(playerGameState);
-	// let el = event.target || window.event;   
- //    let active_line = el.id.charAt(0);
-	// let active_quilbit = el.id.charAt(2);
-	// if(event.target.classList.contains('sup_quant')){
- //     for(let i=0; i<3; i++){ 
- //     if(working_sequence[i][active_quilbit] ==1){
-	// 	  working_sequence[i][active_quilbit] =2; 	
-	// 	}
-	// 	else if(working_sequence[i][active_quilbit] ==2){
-	// 	working_sequence[i][active_quilbit] =1;
-	//    }  
- //     }
-	// }
-	// else{
-	// for(let i=0; i<3; i++){
-	// 	if(working_sequence[active_line][i] ==1){
-	// 	  working_sequence[active_line][i] =2; 	
-	// 	}
-	// 	else if(working_sequence[active_line][i] ==2){
-	// 	working_sequence[active_line][i] = 1; 	
-	// 	}  
-	// }
- //  }
- //  ++moves;
-
- //  current_move.innerText = moves;
- //   let a =arraysEqual(working_sequence, solution_sequence[level]);
- //    if(a==true){
- //    	++level;
- //    	current_level.innerText = level+1;
-
- //    	 moves =0;
- //         available_moves = max_moves[level];
- //         current_move.innerText = moves;
- //         max_moves_text.innerText = available_moves;
- //         createPattern(level);
- //         buildGame(sequence);
- //    }
-
- //    else{
-  
- //      	buildGame(working_sequence);    
-
- //    }
-
- //  }
+		  el.classList.remove('active');
+		}
+		else{
+		  el.classList.add('active');	
+		}
+		let index_in_collection = el.getAttribute('id');	
+		combination.unshift(index_in_collection);
+		let active_line = el.childNodes[0].id.charAt(0);
+		let active_quilbit = el.childNodes[0].id.charAt(2);
+		if(combination.length>2){
+			document.getElementById(combination[2]).classList.remove('active');
+			combination.pop();
+		}
+     }
 }
 
 function createPattern(level){
@@ -244,6 +118,11 @@ solution.appendChild(table_solution);
 
 
 function buildGame(array){	
+
+
+turnOnGatter();
+
+
 	let table = document.createElement('table'),
 		tbody = document.createElement('tbody');	
 		table.id = 'game_field';				
@@ -253,17 +132,18 @@ function buildGame(array){
 		let row = document.createElement('tr');
 		for(let j = 0; j < 3; ++j){
 			let cell = document.createElement('td');
+			cell.setAttribute('id' , i + " " + j);
 				
 				cell.onclick = cellClick;
 				let quant = array[i][j];
 				if(quant==1){
-                  quant = '<div class="quants white_quant" id="'  + i + " " + j  +'"></div>';
+                  quant = '<div class="quants white_quant"></div>';
 				}
 				else if(quant==2){
-				  quant = '<div class="quants black_quant" id="'  + i + " " + j  +'"></div>';	
+				  quant = '<div class="quants black_quant"></div>';	
 				}
 				else{
-				quant = '<div class="quants sup_quant"  id="'  + i + " " + j  +'"></div>';	
+				quant = '<div class="quants sup_quant"></div>';	
 				}
 				cell.innerHTML = quant;
 				row.appendChild(cell);
@@ -273,6 +153,9 @@ function buildGame(array){
 	 if(box.childNodes.length == 1)
 		box.removeChild(box.firstChild);	
 	box.appendChild(table);	
+
+
+	
 	
 }
 // tutorials
@@ -320,36 +203,20 @@ back_tutorial.addEventListener('click', function(e){
 
 
 back_move.addEventListener('click', function(e){
-if(moves>0){
-	--moves;
+	if(moves>0){
+			--moves;
+		back_move.classList.add('active');
+		let last = playerGameState.moves.length;
+		working_sequence = playerGameState.moves[0];
+		buildGame(working_sequence);
+		current_move.innerText = moves;
+		playerGameState.moves.splice(0, 1);
+	}
 
-
-
-
-let last = playerGameState.moves.length;
-// let last_sequence = 
-
-working_sequence = playerGameState.moves[0];
-
-
-
-	 buildGame(working_sequence);
-
-
-// console.log(playerGameState.moves);
-
-    current_move.innerText = moves;
-playerGameState.moves.splice(0, 1);
-}
-
-
+	if(moves ==0){
+		back_move.classList.remove('active');
+	}
 });
-
-
-
-
-
-
 
 window.onload = function() {				
 	box = document.getElementById('box');
@@ -357,9 +224,6 @@ window.onload = function() {
 	createPattern(level);
 	buildGame(sequence);	
 }
-
-
-
 close_modal.addEventListener('click', function(e){
   notification_modal.style.display = 'none';
   overlay.style.display = 'none';
@@ -368,37 +232,299 @@ close_modal.addEventListener('click', function(e){
 
 function turnOnGatter(){
 const x_gatter = document.getElementById('x_gatter');
-const h_gatter = document.getElementById('h_gatter');
+const h_gatter1 = document.getElementById('h_gatter1');
+const h_gatter2 = document.getElementById('h_gatter2');
 const swap_gatter = document.getElementById('swap_gatter');
 const snot_gatter = document.getElementById('snot_gatter');
-
-if(level >=1){
-x_gatter.style.display = 'block';
-h_gatter.style.display = 'none'; 
-swap_gatter.style.display = 'none'; 
-snot_gatter.style.display = 'none'; 	
+	if(level ==2 || level ==3){
+	x_gatter.style.display = 'inline-block';
+	h_gatter1.style.display = 'inline-block'; 
+	h_gatter2.style.display = 'inline-block'; 
+	swap_gatter.style.display = 'none'; 
+	snot_gatter.style.display = 'none'; 	
+	}
+	else if(level ==4 || level ==5){
+		x_gatter.style.display = 'inline-block';
+		h_gatter1.style.display = 'none'; 
+	    h_gatter2.style.display = 'none'; 
+		swap_gatter.style.display = 'inline-block'; 
+		snot_gatter.style.display = 'none'; 	
+	}
+	else if(level ==6){
+		x_gatter.style.display = 'inline-block';
+		h_gatter1.style.display = 'none'; 
+	    h_gatter2.style.display = 'none'; 
+		swap_gatter.style.display = 'none'; 
+		snot_gatter.style.display = 'inline-block'; 	
+	}
+	else if(level ==7){
+		x_gatter.style.display = 'inline-block';
+		h_gatter1.style.display = 'inline-block'; 
+	    h_gatter2.style.display = 'inline-block'; 
+		swap_gatter.style.display = 'none'; 
+		snot_gatter.style.display = 'inline-block'; 	
+	}
 }
 
-}
+
+function applyGatter(gatter){
+let current_state = working_sequence.map(sub => sub.slice());
+playerGameState.moves.unshift(current_state);
+let manipulation_line;
+let manipulation_column;
+let active_line1 = combination[0].charAt(0);
+let active_column1 = combination[0].charAt(2);
+let active_line2 = combination[1].charAt(0);
+let active_column2 = combination[1].charAt(2);
 
 
-function selectGatter(gatter){
+
+
+
+
 	switch (gatter) {
 	  case 'x_gatter':
-	    alert( 'Маловато' );
+
+
+
+
+
+
+
+
+		if(combination.length<2){
+		alert('Пустое!');
+		return false;
+		}
+
+	if(active_line1 != active_line2 && active_column1 != active_column2 ){
+	   alert('Пустое3333');	
+	}
+  else{
+	if(active_line1 == active_line2){
+	manipulation_line = true;
+	manipulation_column = false;
+	}
+
+	else if (active_column1== active_column2) {
+	manipulation_column = true;
+	manipulation_line = false;
+	}
+
+      if(manipulation_column){
+		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column1] ==1){
+			  working_sequence[i][active_column1] =2; 	
+			}
+			else if(working_sequence[i][active_column1] ==2){
+			working_sequence[i][active_column1] =1;
+            }  
+         }
+       }
+
+   else{
+	for(let i=0; i<3; i++){
+		if(working_sequence[active_line1][i] ==1){
+		  working_sequence[active_line1][i] =2; 	
+		}
+		else if(working_sequence[active_line1][i] ==2){
+		  working_sequence[active_line1][i] = 1; 	
+		} 
+	  }
+   }
+
+}
+
+	 ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+     if(moves >0){
+		back_move.classList.add('active');
+	}
+
 	    break;
-	  case 'h_gatter':
-	    alert( 'В точку!' );
+	  case 'h_gatter1':
+
+
+if(combination.length<2){
+alert('Пустое!');
+return false;
+}
+// let active_line1 = combination[0].charAt(0);
+// let active_column1 = combination[0].charAt(2);
+// let active_line2 = combination[1].charAt(0);
+// let active_column2 = combination[1].charAt(2);
+	if(active_line1 != active_line2 && active_column1 != active_column2 ){
+	   alert('Пустое3333');	
+	}
+  else{
+	if(active_line1 == active_line2){
+	manipulation_line = true;
+	manipulation_column = false;
+	}
+
+	else if (active_column1== active_column2) {
+	manipulation_column = true;
+	manipulation_line = false;
+	}
+
+
+	            if(manipulation_column){
+		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column1] ==1){
+			  working_sequence[i][active_column1] =3; 	
+			}
+			else if(working_sequence[i][active_column1] ==3){
+			working_sequence[i][active_column1] =2;
+            }  
+         }
+       }
+
+   else{
+	for(let i=0; i<3; i++){
+		if(working_sequence[active_line1][i] ==1){
+		  working_sequence[active_line1][i] =3; 	
+		}
+		else if(working_sequence[active_line1][i] ==3){
+		  working_sequence[active_line1][i] = 2; 	
+		} 
+	  }
+   }
+}
+	 ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+
+
 	    break;
+
+
+       	  case 'h_gatter2':
+
+
+
+if(combination.length<2){
+alert('Пустое!');
+return false;
+}
+
+	if(active_line1 != active_line2 && active_column1 != active_column2 ){
+	   alert('Пустое3333');	
+	}
+  else{
+	if(active_line1 == active_line2){
+	manipulation_line = true;
+	manipulation_column = false;
+	}
+
+	else if (active_column1== active_column2) {
+	manipulation_column = true;
+	manipulation_line = false;
+	}
+
+
+	            if(manipulation_column){
+		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column1] ==2){
+			  working_sequence[i][active_column1] =3; 	
+			}
+			else if(working_sequence[i][active_column1] ==3){
+			working_sequence[i][active_column1] =1;
+            }  
+         }
+       }
+
+   else{
+	for(let i=0; i<3; i++){
+		if(working_sequence[active_line1][i] ==2){
+		  working_sequence[active_line1][i] =3; 	
+		}
+		else if(working_sequence[active_line1][i] ==3){
+		  working_sequence[active_line1][i] = 1; 	
+		} 
+	  }
+   }
+}
+	 ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+
+
+	    break;
+
+
+
+
+
+
+
 	  case 'swap_gatter':
-	    alert( 'Перебор' );
+
+
+
+
+// 	  console.log(Number(active_line1));
+// console.log(Number(active_line2));
+
+// console.log(Number(active_column1));
+// console.log(Number(active_column2));
+
+
+
+     working_sequence[active_line1][active_column1] = working_sequence[active_line2][active_column2];
+      working_sequence[active_line2][active_column2] = working_sequence[active_line1][active_column1];
+ 
+           	 ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+	    
 	    break;
 	    case 'snot_gatter':
-	    alert( '33333' );
+
+      let control = working_sequence[active_line1][active_column1];
+      working_sequence[active_line2][active_column2] = control; 
+       
+
+      ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+
+	    
 	    break;
-	  default:
-	    alert( "Нет таких значений" );
+	    
 	}
+
+
+
+
+  let a =arraysEqual(working_sequence, solution_sequence[level]);
+
+
+    if(a==true){
+    	alert('Выиграл');
+    	++level;
+    	current_level.innerText = level+1;
+
+    	 moves =0;
+         available_moves = max_moves[level];
+         current_move.innerText = moves;
+         max_moves_text.innerText = available_moves;
+         createPattern(level);
+         buildGame(sequence);
+    }
+
+
+// }
 
 }
 
@@ -409,6 +535,17 @@ let gatterItems = document.querySelectorAll('.game_gatter'),
     let active_gatter;
     single_gatter.addEventListener('click', function (event) {
     	 active_gatter = event.target; 
+
+          if(active_gatter.classList.contains('active')){
+          	applyGatter(gatter_in_action);
+          }
+
+          else{
+
+
+
+
+
        for (let i = 0; i < gatterItems.length; i++) {
           gatterItems[i].classList.remove('active');
        }
@@ -419,5 +556,9 @@ let gatterItems = document.querySelectorAll('.game_gatter'),
 // selectGatter(gatter_in_action);
 
         event.preventDefault();
+
+          }
     });
+
+
 }

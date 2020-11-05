@@ -32,15 +32,14 @@ margin:auto;
 max-width: 1366px;
 position: relative;
 }
-
 .top_blocks{
- position: absolute;
- top: 0;
- left: 0;
- right: 0;
- margin: 0 auto;	
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+margin: 0 auto;
+z-index: 1;	
 }
-
 .game_button{
 display: inline-block;
 color: #000;
@@ -63,6 +62,11 @@ opacity: 0.6;
 }
 .game_button.grey{
 background-color: #bfbfbf;
+}
+.game_button.grey.active {
+background-color: #2285db;
+border: 3px solid #385d8a;
+color: #fff;
 }
 .game_button.blue{
 background-color: #4f81bd;
@@ -161,12 +165,9 @@ margin: 0 auto;
 display: none;
 min-height: 100vh;
 }
-
 #first_tutorial_show{
 /*display: block;*/
 }
-
-
 #first_tutorial_table{
 margin: 0 auto;
 }
@@ -194,7 +195,6 @@ background-color: #bfbfbf;
 margin: 20px;
 border: 1px solid #333;
 }
-
 .black_quant.mini, 
 .sup_quant.mini,
 .white_quant.mini{
@@ -219,14 +219,16 @@ margin-bottom: 0;
 }
 #box{
 padding-top: 15vh;
-align-items: center;	
+align-items: center;
+position: relative;
+z-index: 2;	
 }
 
 table#game_field, table#game_target{
 text-align: center;	
--webkit-transform: rotate(45deg);
+/*-webkit-transform: rotate(45deg);
 -ms-transform: rotate(45deg);
-transform: rotate(45deg);
+transform: rotate(45deg);*/
 }
 table#game_field{
 margin-top:0;	
@@ -240,7 +242,6 @@ table#game_target{
 user-select: none;
 display: inline-block;
 margin-top: 20px;
-
 }
 td {				
 text-align:center;			
@@ -260,18 +261,12 @@ background-color: #2285db ;
 opacity: 0.8;
 cursor: pointer;
 }
-
 #box td:focus{
 background-color: transparent;
 }
-
-
-
 #box td.active{
 background-color: #92bdee;	
 }
-
-
 #solution td {
 text-align:center;
 }
@@ -337,8 +332,6 @@ color: #fff;
 font-size: 20px;
 font-family:"Montserrat-Bold";
 }
-
-
 .game_gatter{
 background-color: #61a4ef;
 color: #000;
@@ -358,17 +351,45 @@ opacity: 0.5;
 .game_gatter:hover{
 opacity: 0.9;
 }
-
 .game_gatter.active{
 background-color: #fbfbfb;
 color: #000;
 opacity: 1;
-cursor: default;
+/*cursor: default;*/
 }
 .game_gatter.active:hover{
 opacity: 0.8;
 }
 #h_gatter, #swap_gatter, #snot_gatter{
-/*display: none;*/
+display: none;
 } 
-
+@media (max-width: 768px) {
+.top_blocks{
+position: relative;
+}
+.sup_quant, .white_quant,
+.black_quant {
+width: 40px;
+height: 40px;
+margin: 15px;
+}
+.game_gatter {
+font-size: 18px;
+padding: 20px 10px;
+margin-bottom: 20px;
+}
+#box {
+padding-top: 40px;
+}
+#close {
+font-size: 32px;
+top: 0;
+right: 0px;
+}
+.game_button{
+margin-bottom: 20px;
+}
+.game_stat {
+font-size: 18px;
+}
+}
