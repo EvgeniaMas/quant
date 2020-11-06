@@ -68,6 +68,14 @@ background-color: #2285db;
 border: 3px solid #385d8a;
 color: #fff;
 }
+#back_move{
+cursor: not-allowed;
+opacity: 0.8;
+}
+#back_move.game_button.grey.active{
+cursor: pointer;
+opacity: 1;
+}
 .game_button.blue{
 background-color: #4f81bd;
 border: 3px solid #385d8a;
@@ -218,7 +226,7 @@ margin-top: 20px;
 margin-bottom: 0;
 }
 #box{
-padding-top: 15vh;
+padding-top: 25vh;
 align-items: center;
 position: relative;
 z-index: 2;	
@@ -226,9 +234,9 @@ z-index: 2;
 
 table#game_field, table#game_target{
 text-align: center;	
-/*-webkit-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
 -ms-transform: rotate(45deg);
-transform: rotate(45deg);*/
+transform: rotate(45deg);
 }
 table#game_field{
 margin-top:0;	
@@ -287,17 +295,19 @@ left: 0;
 right:0;
 margin: 0 auto;
 padding: 50px 30px;
-background-image: url('../img/game_bg.jpg');
+background-color: #fbfbfb;
+/*background-image: url('../img/game_bg.jpg');
 background-position: center;
 background-size: cover;
-background-repeat: no-repeat;
+background-repeat: no-repeat;*/
 -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-max-width: 400px;
+max-width: 600px;
 display: none;
 z-index: 3;
 border-radius: 20px;
+text-align: center;
 }
 #close_modal{
 text-align: right;
@@ -325,6 +335,11 @@ display: none;
 .gatter_block{
 text-align: left;
 margin-top: 30px;
+/*position: absolute;
+bottom:0;
+left: 0;
+right: 0;
+margin: 0 auto;*/
 }
 
 .gatter_block_title{
@@ -355,12 +370,24 @@ opacity: 0.9;
 background-color: #fbfbfb;
 color: #000;
 opacity: 1;
-/*cursor: default;*/
 }
 .game_gatter.active:hover{
 opacity: 0.8;
 }
-#h_gatter, #swap_gatter, #snot_gatter{
+#go_modal, #modal_buttons{
+display: none;	
+}
+#modal_buttons{
+text-align: center;
+margin-top: 30px;
+margin-bottom: 30px;
+}
+#go_modal{
+margin: 0 auto;
+margin-top: 30px;
+margin-bottom: 30px;
+}
+#h_gatter1, #h_gatter2, #swap_gatter, #snot_gatter{
 display: none;
 } 
 @media (max-width: 768px) {
@@ -392,4 +419,27 @@ margin-bottom: 20px;
 .game_stat {
 font-size: 18px;
 }
+#notification_modal {
+padding: 30px 15px;
+max-width: 95%;
+z-index: 3;
+border-radius: 16px;
 }
+#notification_message {
+text-align: center;
+font-size: 25px;
+margin-top: 16px;
+margin-bottom: 16px;
+}
+.game_button {
+font-size: 18px;
+padding: 10px 20px;
+}
+.game_gatter {
+font-size: 18px;
+padding: 20px 16px;
+}
+}
+
+
+

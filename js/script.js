@@ -11,6 +11,10 @@ const close_modal = document.getElementById('close_modal');
 const notification_modal = document.getElementById('notification_modal');
 const notification_message = document.getElementById('notification_message');
 const overlay = document.getElementById('overlay');
+const go_modal = document.getElementById('go_modal');
+const back_move_modal = document.getElementById('back_move_modal');
+const level_redone = document.getElementById('level_redone');
+const modal_buttons = document.getElementById('modal_buttons');
 let close =document.getElementById('close');
 let sequence = [[3,2,1], [1,1,2], [1,3,3]];
 let working_sequence = sequence.map(sub => sub.slice());
@@ -48,12 +52,23 @@ function arraysEqual(arr1, arr2) {
 
 }
 
+
+function notifyPlayer(message){
+
+    notification_modal.style.display = 'block';
+    notification_message.innerText = message;
+    overlay.style.display = 'block'; 
+
+
+}
+
+
 let combination = [];
 function cellClick(event) {
   if(moves>=available_moves){
-    notification_modal.style.display = 'block';
-    notification_message.innerText = 'Du hast die maximale Anzahl von Zügen erreicht. Drücke auf "Rückgängig", um einen Zug zurückzuziehen oder starte den Level erneut.';
-    overlay.style.display = 'block';  
+  	let message =  'Du hast die maximale Anzahl von Zügen erreicht. Drücke auf "Rückgängig", um einen Zug zurückzuziehen oder starte den Level erneut.';
+    modal_buttons.style.display = 'block';
+    notifyPlayer(message);
   }
    else{
 		let el = event.target || window.event;   
@@ -153,11 +168,33 @@ turnOnGatter();
 	 if(box.childNodes.length == 1)
 		box.removeChild(box.firstChild);	
 	box.appendChild(table);	
-
-
-	
-	
 }
+
+
+function backMoveRun(){
+	if(moves>0){
+		--moves;
+		back_move.classList.add('active');
+		let last = playerGameState.moves.length;
+		working_sequence = playerGameState.moves[0];
+		buildGame(working_sequence);
+		current_move.innerText = moves;
+		playerGameState.moves.splice(0, 1);
+	}
+
+	if(moves ==0){
+		back_move.classList.remove('active');
+	}	
+}
+
+
+function closeModal(){
+notification_modal.style.display = 'none';
+overlay.style.display = 'none';
+modal_buttons.style.display = 'none';
+go_modal.style.display = 'none';
+}
+
 // tutorials
 let index = 0;
 let tutorial1 = document.querySelectorAll('.tutorial_block');
@@ -202,21 +239,14 @@ back_tutorial.addEventListener('click', function(e){
 });
 
 
-back_move.addEventListener('click', function(e){
-	if(moves>0){
-			--moves;
-		back_move.classList.add('active');
-		let last = playerGameState.moves.length;
-		working_sequence = playerGameState.moves[0];
-		buildGame(working_sequence);
-		current_move.innerText = moves;
-		playerGameState.moves.splice(0, 1);
-	}
 
-	if(moves ==0){
-		back_move.classList.remove('active');
-	}
-});
+
+
+
+
+
+
+
 
 window.onload = function() {				
 	box = document.getElementById('box');
@@ -225,9 +255,8 @@ window.onload = function() {
 	buildGame(sequence);	
 }
 close_modal.addEventListener('click', function(e){
-  notification_modal.style.display = 'none';
-  overlay.style.display = 'none';
-  
+closeModal();
+ 
 });
 
 function turnOnGatter(){
@@ -267,7 +296,30 @@ const snot_gatter = document.getElementById('snot_gatter');
 }
 
 
+function resetGameState(){
+	 ++moves;
+     current_move.innerText = moves; 
+     buildGame(working_sequence);    
+     combination = [];
+
+     if(moves >0){
+		back_move.classList.add('active');
+	}	
+}
+
+
 function applyGatter(gatter){
+
+if(combination.length<2){
+	let empty_message = 'Du hast nichts gewählt!';
+
+	notifyPlayer(empty_message);
+ 
+return false;
+}
+
+
+
 let current_state = working_sequence.map(sub => sub.slice());
 playerGameState.moves.unshift(current_state);
 let manipulation_line;
@@ -281,24 +333,12 @@ let active_column2 = combination[1].charAt(2);
 
 
 
-
 	switch (gatter) {
 	  case 'x_gatter':
-
-
-
-
-
-
-
-
-		if(combination.length<2){
-		alert('Пустое!');
-		return false;
-		}
-
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
-	   alert('Пустое3333');	
+       	let wrong_message = 'Wähle eine Spalte oder eine Zeile!!';
+	notifyPlayer(wrong_message);
+
 	}
   else{
 	if(active_line1 == active_line2){
@@ -335,23 +375,12 @@ let active_column2 = combination[1].charAt(2);
 
 }
 
-	 ++moves;
-     current_move.innerText = moves; 
-     buildGame(working_sequence);    
-     combination = [];
 
-     if(moves >0){
-		back_move.classList.add('active');
-	}
 
 	    break;
 	  case 'h_gatter1':
 
 
-if(combination.length<2){
-alert('Пустое!');
-return false;
-}
 // let active_line1 = combination[0].charAt(0);
 // let active_column1 = combination[0].charAt(2);
 // let active_line2 = combination[1].charAt(0);
@@ -393,10 +422,7 @@ return false;
 	  }
    }
 }
-	 ++moves;
-     current_move.innerText = moves; 
-     buildGame(working_sequence);    
-     combination = [];
+	
 
 
 
@@ -404,14 +430,6 @@ return false;
 
 
        	  case 'h_gatter2':
-
-
-
-if(combination.length<2){
-alert('Пустое!');
-return false;
-}
-
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
 	   alert('Пустое3333');	
 	}
@@ -449,10 +467,7 @@ return false;
 	  }
    }
 }
-	 ++moves;
-     current_move.innerText = moves; 
-     buildGame(working_sequence);    
-     combination = [];
+
 
 
 
@@ -465,53 +480,34 @@ return false;
 
 
 	  case 'swap_gatter':
-
-
-
-
-// 	  console.log(Number(active_line1));
-// console.log(Number(active_line2));
-
-// console.log(Number(active_column1));
-// console.log(Number(active_column2));
-
-
-
-     working_sequence[active_line1][active_column1] = working_sequence[active_line2][active_column2];
+      working_sequence[active_line1][active_column1] = working_sequence[active_line2][active_column2];
       working_sequence[active_line2][active_column2] = working_sequence[active_line1][active_column1];
- 
-           	 ++moves;
-     current_move.innerText = moves; 
-     buildGame(working_sequence);    
-     combination = [];
-
-	    
-	    break;
+     
+	  break;
 	    case 'snot_gatter':
 
       let control = working_sequence[active_line1][active_column1];
       working_sequence[active_line2][active_column2] = control; 
        
-
-      ++moves;
-     current_move.innerText = moves; 
-     buildGame(working_sequence);    
-     combination = [];
+  
+	  break;
 
 
-	    
-	    break;
 	    
 	}
 
-
+   resetGameState();
 
 
   let a =arraysEqual(working_sequence, solution_sequence[level]);
 
 
     if(a==true){
-    	alert('Выиграл');
+    	let win = 'Glückwunsch! Du hast diesen Level richtig gelöst!';
+    	go_modal.style.display = 'inline_block';
+        notifyPlayer(win);
+
+    	
     	++level;
     	current_level.innerText = level+1;
 
@@ -562,3 +558,35 @@ let gatterItems = document.querySelectorAll('.game_gatter'),
 
 
 }
+// events handlings
+back_move.addEventListener('click', function(e){
+	backMoveRun();
+});
+
+back_move_modal.addEventListener('click', function(e){
+
+
+	closeModal();	
+	backMoveRun();
+});
+go_modal.addEventListener('click', function(e){
+   closeModal();	
+});
+
+
+level_redone.addEventListener('click', function(e){
+
+	 closeModal();
+
+
+	moves =0;
+	available_moves = max_moves[level];
+	current_move.innerText = moves;
+	max_moves_text.innerText = available_moves;
+	createPattern(level);
+	buildGame(sequence);
+});
+
+
+
+// alert(screen.height);
