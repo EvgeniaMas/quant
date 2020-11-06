@@ -11,10 +11,11 @@ const close_modal = document.getElementById('close_modal');
 const notification_modal = document.getElementById('notification_modal');
 const notification_message = document.getElementById('notification_message');
 const overlay = document.getElementById('overlay');
-const go_modal = document.getElementById('go_modal');
+const pass_modal = document.getElementById('pass_modal');
 const back_move_modal = document.getElementById('back_move_modal');
 const level_redone = document.getElementById('level_redone');
 const modal_buttons = document.getElementById('modal_buttons');
+const to_level = document.getElementById('to_level');
 let close =document.getElementById('close');
 let sequence = [[3,2,1], [1,1,2], [1,3,3]];
 let working_sequence = sequence.map(sub => sub.slice());
@@ -23,22 +24,17 @@ const quants_cells = document.getElementsByClassName('quants_cells');
 let playerGameState = {};
 playerGameState.moves = [];
 playerGameState.moves.push(working_sequence);
-
 let solution_sequence = [  [[3,2,2], [2,2,2], [1,3,3]], 
  [[3,1,2], [1,2,1], [2,3,3]], [[2,3,3], [1,2,2], [1,3,3]],
  [[2,1,2], [3,1,2], [2,2,2]],  [[3,2,1], [2,3,1], [1,3,2]], 
  [[1,2,1], [1,1,2], [2,2,2]], [[3,2,1], [1,2,1], [1,3,3]], 
  [[1,1,2], [3,1,2], [3,3,3]]
 ];
-
-
 let moves =0;
-let level = 0;
+let level = 6;
 let max_moves = [2,3,2,3,2,2,2,3];
 let available_moves = max_moves[level];
 let box, solution;
-
-
 function arraysEqual(arr1, arr2) {
     for (var i = 0; i < 3; i++) {
     	 for (var j = 0; j < 3; j++) {
@@ -52,16 +48,14 @@ function arraysEqual(arr1, arr2) {
 
 }
 
-
 function notifyPlayer(message){
-
-    notification_modal.style.display = 'block';
+    
     notification_message.innerText = message;
     overlay.style.display = 'block'; 
-
+    fadeIn(notification_modal);
+// notification_modal.style.display = 'block';
 
 }
-
 
 let combination = [];
 function cellClick(event) {
@@ -131,13 +125,8 @@ function createPattern(level){
 solution.appendChild(table_solution);
 }
 
-
 function buildGame(array){	
-
-
 turnOnGatter();
-
-
 	let table = document.createElement('table'),
 		tbody = document.createElement('tbody');	
 		table.id = 'game_field';				
@@ -170,7 +159,6 @@ turnOnGatter();
 	box.appendChild(table);	
 }
 
-
 function backMoveRun(){
 	if(moves>0){
 		--moves;
@@ -187,46 +175,88 @@ function backMoveRun(){
 	}	
 }
 
-
 function closeModal(){
-notification_modal.style.display = 'none';
+fadeOut(notification_modal);
 overlay.style.display = 'none';
 modal_buttons.style.display = 'none';
-go_modal.style.display = 'none';
+pass_modal.style.display = 'none';
 }
 
 // tutorials
 let index = 0;
-let tutorial1 = document.querySelectorAll('.tutorial_block');
-let tutorial2 = document.querySelectorAll('.tutorial_block2');
-let index_length = tutorial1.length;
-// Info Button
-information.addEventListener('click', function(){
-	if(level>1){
-      second_tutorial_show.style.display = 'block';
+let tutorial = document.querySelectorAll('.tutorial_block1');
+let index_length = tutorial.length;
+
+
+function checkTutorial(){
+
+	console.log(tutorial);
+
+	alert('Уровень ' +  level);
+if(level <=1){
+	alert("1");
+     tutorial = document.querySelectorAll('.tutorial_block1');	
 	}
-	else{
-	first_tutorial_show.style.display = 'block';	
-	}  
+	else if(level < 3){
+
+		alert("2");
+      tutorial = document.querySelectorAll('.tutorial_block2');	
+	}
+	else if(level < 5){
+
+		alert("3");
+      tutorial = document.querySelectorAll('.tutorial_block3');		
+	}
+	else if(level >5){
+		alert("4");
+      tutorial = document.querySelectorAll('.tutorial_block4');		
+	}
+}
+
+function cleanTutorial(){
+let tutorials = document.querySelectorAll('.tutorial_section');	
+for (var i=0; i<tutorials.length; i++){
+	 tutorials[i].classList.remove('active');
+ }
+  tutorial[0].classList.add('active');
+  index = 0; 
+  next_tutorial.style.display = 'inline-block';
+  to_level.style.display = 'none';
+  index_length = tutorial.length;
+}
+
+information.addEventListener('click', function(){
+	fadeIn(tutorial_show);
 });
+
+
 close.addEventListener('click', function(){
-   first_tutorial_show.style.display = 'none';
+   fadeOut(tutorial_show);
 });
+
 next_tutorial.addEventListener('click', function(e){
-	tutorial1[index].classList.remove('active');
+	tutorial[index].classList.remove('active');
 	++index;
 	if(index == index_length-1){
 		index= index_length-1;
-		next_tutorial.classList.add('disabled');
-		next_tutorial.innerText = 'Zu Level1 >';
+		next_tutorial.style.display = 'none';
+		to_level.style.display = 'inline-block';
+		let to_current = level +1;
+		to_level.innerText = 'Zu Level' + to_current +' >';
 	}
-	else if(index==1){
-	    back_tutorial.classList.remove('disabled');     
+	else if(index>0){
+	    back_tutorial.classList.remove('disabled'); 	        
     }
-     tutorial1[index].classList.add('active');	
+
+    else if(index==0){
+    	back_tutorial.classList.add('disabled'); 
+    }
+
+
+     tutorial[index].classList.add('active');	
 });
 back_tutorial.addEventListener('click', function(e){
-	tutorial1[index].classList.remove('active');
+	tutorial[index].classList.remove('active');
 	--index;
 	if(index <= 0){
 		index= 0;		
@@ -235,18 +265,13 @@ back_tutorial.addEventListener('click', function(e){
 	next_tutorial.classList.remove('disabled');
      
     }
-     tutorial1[index].classList.add('active');
+
+    if(index==0){
+      back_tutorial.classList.add('disabled'); 
+    }
+
+     tutorial[index].classList.add('active');
 });
-
-
-
-
-
-
-
-
-
-
 
 window.onload = function() {				
 	box = document.getElementById('box');
@@ -272,13 +297,23 @@ const snot_gatter = document.getElementById('snot_gatter');
 	swap_gatter.style.display = 'none'; 
 	snot_gatter.style.display = 'none'; 	
 	}
-	else if(level ==4 || level ==5){
+	else if(level ==4){
 		x_gatter.style.display = 'inline-block';
 		h_gatter1.style.display = 'none'; 
 	    h_gatter2.style.display = 'none'; 
 		swap_gatter.style.display = 'inline-block'; 
 		snot_gatter.style.display = 'none'; 	
 	}
+    else if(level ==5){
+      x_gatter.style.display = 'none';
+		h_gatter1.style.display = 'inline-block'; 
+		h_gatter1.classList.add('active');
+	    h_gatter2.style.display = 'inline-block'; 
+		swap_gatter.style.display = 'inline-block'; 
+		snot_gatter.style.display = 'none'; 
+
+    }
+
 	else if(level ==6){
 		x_gatter.style.display = 'inline-block';
 		h_gatter1.style.display = 'none'; 
@@ -294,8 +329,6 @@ const snot_gatter = document.getElementById('snot_gatter');
 		snot_gatter.style.display = 'inline-block'; 	
 	}
 }
-
-
 function resetGameState(){
 	 ++moves;
      current_move.innerText = moves; 
@@ -306,10 +339,7 @@ function resetGameState(){
 		back_move.classList.add('active');
 	}	
 }
-
-
 function applyGatter(gatter){
-
 if(combination.length<2){
 	let empty_message = 'Du hast nichts gewählt!';
 
@@ -317,9 +347,6 @@ if(combination.length<2){
  
 return false;
 }
-
-
-
 let current_state = working_sequence.map(sub => sub.slice());
 playerGameState.moves.unshift(current_state);
 let manipulation_line;
@@ -328,13 +355,10 @@ let active_line1 = combination[0].charAt(0);
 let active_column1 = combination[0].charAt(2);
 let active_line2 = combination[1].charAt(0);
 let active_column2 = combination[1].charAt(2);
-
-
-
-
-
 	switch (gatter) {
 	  case 'x_gatter':
+
+	  console.log(combination);
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
        	let wrong_message = 'Wähle eine Spalte oder eine Zeile!!';
 	notifyPlayer(wrong_message);
@@ -342,6 +366,7 @@ let active_column2 = combination[1].charAt(2);
 	}
   else{
 	if(active_line1 == active_line2){
+
 	manipulation_line = true;
 	manipulation_column = false;
 	}
@@ -350,6 +375,8 @@ let active_column2 = combination[1].charAt(2);
 	manipulation_column = true;
 	manipulation_line = false;
 	}
+
+
 
       if(manipulation_column){
 		   for(let i=0; i<3; i++){ 
@@ -363,6 +390,7 @@ let active_column2 = combination[1].charAt(2);
        }
 
    else{
+   			alert(active_line1);
 	for(let i=0; i<3; i++){
 		if(working_sequence[active_line1][i] ==1){
 		  working_sequence[active_line1][i] =2; 	
@@ -379,12 +407,6 @@ let active_column2 = combination[1].charAt(2);
 
 	    break;
 	  case 'h_gatter1':
-
-
-// let active_line1 = combination[0].charAt(0);
-// let active_column1 = combination[0].charAt(2);
-// let active_line2 = combination[1].charAt(0);
-// let active_column2 = combination[1].charAt(2);
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
 	   alert('Пустое3333');	
 	}
@@ -398,9 +420,7 @@ let active_column2 = combination[1].charAt(2);
 	manipulation_column = true;
 	manipulation_line = false;
 	}
-
-
-	            if(manipulation_column){
+	   if(manipulation_column){
 		   for(let i=0; i<3; i++){ 
 		    if(working_sequence[i][active_column1] ==1){
 			  working_sequence[i][active_column1] =3; 	
@@ -423,12 +443,7 @@ let active_column2 = combination[1].charAt(2);
    }
 }
 	
-
-
-
 	    break;
-
-
        	  case 'h_gatter2':
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
 	   alert('Пустое3333');	
@@ -467,63 +482,71 @@ let active_column2 = combination[1].charAt(2);
 	  }
    }
 }
-
-
-
-
-	    break;
-
-
-
-
-
-
-
+      break;
 	  case 'swap_gatter':
-      working_sequence[active_line1][active_column1] = working_sequence[active_line2][active_column2];
-      working_sequence[active_line2][active_column2] = working_sequence[active_line1][active_column1];
+	  let first_swap = working_sequence[active_line1][active_column1];
+	  let second_swap  = working_sequence[active_line2][active_column2];
+
+      working_sequence[active_line1][active_column1] = second_swap;
+      working_sequence[active_line2][active_column2] = first_swap;
      
 	  break;
 	    case 'snot_gatter':
+ 
+       console.log(combination);
+      let control = working_sequence[active_line2][active_column2];
 
-      let control = working_sequence[active_line1][active_column1];
-      working_sequence[active_line2][active_column2] = control; 
-       
+      alert(control);
+
+      working_sequence[active_line1][active_column1] = control;       
   
-	  break;
-
-
-	    
+	  break;	    
 	}
 
    resetGameState();
-
-
   let a =arraysEqual(working_sequence, solution_sequence[level]);
-
-
     if(a==true){
-    	let win = 'Glückwunsch! Du hast diesen Level richtig gelöst!';
-    	go_modal.style.display = 'inline_block';
-        notifyPlayer(win);
 
-    	
-    	++level;
-    	current_level.innerText = level+1;
-
+      ++level;  
+   
+          	current_level.innerText = level+1;
     	 moves =0;
          available_moves = max_moves[level];
          current_move.innerText = moves;
          max_moves_text.innerText = available_moves;
+         back_move.classList.remove('active');
+
          createPattern(level);
          buildGame(sequence);
+
+
+
+    	if(level ==2 || level ==4 || level==6){
+    		
+          checkTutorial();
+          cleanTutorial();
+          fadeIn(tutorial_show);
+          
+    	}
+    	else{
+    	let win = 'Glückwunsch! Du hast diesen Level richtig gelöst!';
+    	pass_modal.style.display = 'inline_block'; 
+        notifyPlayer(win); 
+
+
+
+
+    	}
+    	  	
+    	
+
+
     }
 
 
 // }
 
 }
-
 let gatterItems = document.querySelectorAll('.game_gatter'),
     index_gatter, single_gatter;
   for (index_gatter = 0; index_gatter < gatterItems.length; index_gatter++) {
@@ -538,47 +561,31 @@ let gatterItems = document.querySelectorAll('.game_gatter'),
 
           else{
 
-
-
-
-
        for (let i = 0; i < gatterItems.length; i++) {
           gatterItems[i].classList.remove('active');
        }
        active_gatter.classList.add('active');
 
        gatter_in_action = active_gatter.getAttribute('id');
-   
-// selectGatter(gatter_in_action);
 
         event.preventDefault();
 
           }
     });
-
-
 }
 // events handlings
 back_move.addEventListener('click', function(e){
 	backMoveRun();
 });
-
 back_move_modal.addEventListener('click', function(e){
-
-
 	closeModal();	
 	backMoveRun();
 });
-go_modal.addEventListener('click', function(e){
+pass_modal.addEventListener('click', function(e){
    closeModal();	
 });
-
-
 level_redone.addEventListener('click', function(e){
-
-	 closeModal();
-
-
+    closeModal();
 	moves =0;
 	available_moves = max_moves[level];
 	current_move.innerText = moves;
@@ -586,7 +593,57 @@ level_redone.addEventListener('click', function(e){
 	createPattern(level);
 	buildGame(sequence);
 });
+to_level.addEventListener('click', function(e){
+  fadeOut(tutorial_show);
+  checkTutorial();
+  cleanTutorial();
+  
+});
 
 
 
-// alert(screen.height);
+function fadeOut(el) {
+  
+	var opacity = 1;
+  
+	var timer = setInterval(function() {
+    
+		if(opacity <= 0.1) {
+		
+			clearInterval(timer);
+			
+	
+		}
+	
+		el.style.opacity = opacity;
+     
+		opacity -= opacity * 0.1;
+   
+	}, 10);
+el.style.display = 'none';
+}
+
+
+function fadeIn(el) {
+  
+	var opacity = 0.01 ;
+
+	el.style.opacity = 0;
+  
+	el.style.display = 'block';
+  
+	var timer = setInterval(function() {
+    
+		if(opacity >= 1) {
+			
+			clearInterval(timer);
+		
+		}
+		
+		el.style.opacity = opacity;
+     
+		opacity += opacity * 0.1;
+   
+	}, 10);
+	
+}
