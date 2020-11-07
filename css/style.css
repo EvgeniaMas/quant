@@ -241,9 +241,9 @@ z-index: 2;
 }
 table#game_field, table#game_target{
 text-align: center;	
-/*-webkit-transform: rotate(45deg);
+-webkit-transform: rotate(45deg);
 -ms-transform: rotate(45deg);
-transform: rotate(45deg);*/
+transform: rotate(45deg);
 }
 table#game_field{
 margin-top:0;	
@@ -310,14 +310,6 @@ z-index: 15;
 border-radius: 20px;
 text-align: center;
 }
-
-#notification_modal.final{
-background-image: url('../img/final.gif');
-background-position: center;
-background-size: cover;
-background-repeat: no-repeat;	
-}
-
 
 #close_modal{
 text-align: right;
@@ -460,5 +452,22 @@ margin-bottom: 30px;
 font-size: 19px;
 line-height: 24px;
 }
+}
+
+#finish{
+position: absolute;
+background-color: #fff;
+background-image: url('../img/final.gif');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;	
+height: 100vh;
+width: 100%;
+z-index: 12;
+top: 0;
+left: 0;
+right: 0;
+padding-top: 200px;
+display: none;
 }
 

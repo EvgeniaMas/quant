@@ -16,6 +16,7 @@ const back_move_modal = document.getElementById('back_move_modal');
 const level_redone = document.getElementById('level_redone');
 const modal_buttons = document.getElementById('modal_buttons');
 const to_level = document.getElementById('to_level');
+const game_field = document.getElementById('game_field');
 let close =document.getElementById('close');
 let sequence = [[3,2,1], [1,1,2], [1,3,3]];
 let working_sequence = sequence.map(sub => sub.slice());
@@ -31,7 +32,8 @@ let solution_sequence = [  [[3,2,2], [2,2,2], [1,3,3]],
  [[1,1,2], [3,1,2], [3,3,3]]
 ];
 let moves =0;
-let level = 7;
+let level = 0;
+turnOnGatter();
 let max_moves = [2,3,2,3,2,2,2,3];
 let available_moves = max_moves[level];
 let box, solution;
@@ -82,32 +84,57 @@ function fadeIn(el) {
 }
 // click on game board handlings
 let combination = [];
-function cellClick(event) {
-  if(moves>=available_moves){
+
+function overMoves(){
   	let message =  '<p class="tutorial_text"> Du hast die maximale Anzahl von Zügen erreicht. Drücke auf "Rückgängig", um einen Zug zurückzuziehen oder starte den Level erneut.</p>';
     modal_buttons.style.display = 'block';
-    notifyPlayer(message);
+    pass_modal.style.display = 'none';
+    notifyPlayer(message);	
+}
+function cellClick(event) {
+  if(moves>=available_moves){
+    overMoves();
   }
    else{
 		let el = event.target || window.event;   
 		if(el.classList.contains('quants')){
 		  el = event.target.parentNode;
 		}
+
 		if(el.classList.contains('active')){
 
 		  el.classList.remove('active');
+		 
+		  let id = el.getAttribute('id');
+		  // alert(id);
+
+		  if(combination.length>1){
+		  	
+		  	let aсtive_index = combination.indexOf(id);
+        
+             if(aсtive_index){
+		  	  combination.splice(active_index, 1); }
+		  }
+		  else{
+	
+		  	combination = [];
+		  }
+     
+	
 		}
 		else{
 		  el.classList.add('active');	
-		}
+		
 		let index_in_collection = el.getAttribute('id');	
 		combination.unshift(index_in_collection);
 		let active_line = el.childNodes[0].id.charAt(0);
 		let active_quilbit = el.childNodes[0].id.charAt(2);
 		if(combination.length>2){
+		
 			document.getElementById(combination[2]).classList.remove('active');
 			combination.pop();
 		}
+     }
      }
 }
 // creat a targert sequence
@@ -147,7 +174,7 @@ solution.appendChild(table_solution);
 }
 // create a game field
 function buildGame(array){	
-turnOnGatter();
+
 	let table = document.createElement('table'),
 		tbody = document.createElement('tbody');	
 		table.id = 'game_field';				
@@ -157,9 +184,11 @@ turnOnGatter();
 		let row = document.createElement('tr');
 		for(let j = 0; j < 3; ++j){
 			let cell = document.createElement('td');
+			cell.classList.add('quibits_container');
 			cell.setAttribute('id' , i + " " + j);
 				
 				cell.onclick = cellClick;
+
 				let quant = array[i][j];
 				if(quant==1){
                   quant = '<div class="quants white_quant"></div>';
@@ -178,6 +207,18 @@ turnOnGatter();
 	 if(box.childNodes.length == 1)
 		box.removeChild(box.firstChild);	
 	box.appendChild(table);	
+
+
+	let quibits_containers = document.querySelectorAll('.quibits_container');
+
+     quibits_containers.forEach(quib_container => {
+        quib_container.addEventListener('touchstart', touchStart);
+        quib_container.addEventListener('touchmove',touchMove);
+        quib_container.addEventListener('touchend', touchEnd);
+      });
+
+
+
 }
 // back move handlings
 function backMoveRun(){
@@ -199,8 +240,6 @@ function backMoveRun(){
 function closeModal(){
 fadeOut(notification_modal);
 overlay.style.display = 'none';
-modal_buttons.style.display = 'none';
-pass_modal.style.display = 'none';
 }
 
 
@@ -227,8 +266,7 @@ const snot_gatter = document.getElementById('snot_gatter');
 	}
     else if(level ==5){
       x_gatter.style.display = 'none';
-		h_gatter1.style.display = 'inline-block'; 
-		h_gatter1.classList.add('active');
+		h_gatter1.style.display = 'inline-block'; 		
 	    h_gatter2.style.display = 'inline-block'; 
 		swap_gatter.style.display = 'inline-block'; 
 		snot_gatter.style.display = 'none';
@@ -247,6 +285,16 @@ const snot_gatter = document.getElementById('snot_gatter');
 		swap_gatter.style.display = 'none'; 
 		snot_gatter.style.display = 'inline-block'; 	
 	}
+
+    let game_gatters = document.querySelectorAll('.game_gatter');
+	if(game_gatters.length>1){
+		for(let a=0; a<game_gatters.length; a++){
+			game_gatters[a].classList.remove('active');
+		}
+	}
+   game_gatters[0].classList.add('active');
+   gatter_in_action = game_gatters[0].getAttribute('id');
+
 }
 function resetGameState(){
 	 ++moves;
@@ -261,22 +309,26 @@ function resetGameState(){
 function applyGatter(gatter){
 if(combination.length<2){
 	let empty_message = '<p class="tutorial_text">Du hast nichts gewählt!</p>';
-	notifyPlayer(empty_message); 
+	notifyPlayer(empty_message);
+	 modal_buttons.style.display = 'none';
+    pass_modal.style.display = 'inline-block'; 
     return false;
 }
-let current_state = working_sequence.map(sub => sub.slice());
-playerGameState.moves.unshift(current_state);
-let manipulation_line;
-let manipulation_column;
-let active_line1 = combination[0].charAt(0);
-let active_column1 = combination[0].charAt(2);
-let active_line2 = combination[1].charAt(0);
-let active_column2 = combination[1].charAt(2);
+	let current_state = working_sequence.map(sub => sub.slice());
+	playerGameState.moves.unshift(current_state);
+	let manipulation_line;
+	let manipulation_column;
+	let active_line1 = combination[0].charAt(0);
+	let active_column1 = combination[0].charAt(2);
+	let active_line2 = combination[1].charAt(0);
+	let active_column2 = combination[1].charAt(2);
 	switch (gatter) {
 	  case 'x_gatter':
 	if(active_line1 != active_line2 && active_column1 != active_column2 ){
        	let wrong_message = '<p class="tutorial_text"> Wähle eine Spalte oder eine Zeile!</P>';
 	notifyPlayer(wrong_message);
+	 modal_buttons.style.display = 'none';
+    pass_modal.style.display = 'inline-block';
 	}
    else{
 	if(active_line1 == active_line2){
@@ -322,6 +374,8 @@ let active_column2 = combination[1].charAt(2);
    if(active_line1 != active_line2 && active_column1 != active_column2 ){
 	let wrong_message = '<p class="tutorial_text">Wähle eine Spalte oder eine Zeile!</p>';
 	notifyPlayer(wrong_message);
+	 modal_buttons.style.display = 'none';
+    pass_modal.style.display = 'inline-block';
 	}
   else{
 	if(active_line1 == active_line2){
@@ -337,37 +391,36 @@ let active_column2 = combination[1].charAt(2);
 
 	    if(manipulation_column){
 		   for(let i=0; i<3; i++){ 
-		    if(working_sequence[i][active_column1] ==1){
+		    if(working_sequence[i][active_column1] ==1  || working_sequence[i][active_column1] ==2){
 			  working_sequence[i][active_column1] =3; 	
 			}
 			else if(working_sequence[i][active_column1] ==3){
-			working_sequence[i][active_column1] =2;
+			working_sequence[i][active_column1] =1;
             }  
          }
        }
 
    else{
 	for(let i=0; i<3; i++){
-		if(working_sequence[active_line1][i] ==1){
+		if(working_sequence[active_line1][i] ==1 || working_sequence[i][active_line1] ==2 ){
 		  working_sequence[active_line1][i] =3; 	
 		}
 		else if(working_sequence[active_line1][i] ==3){
-		  working_sequence[active_line1][i] = 2; 	
+		  working_sequence[active_line1][i] = 1; 	
 		} 
 	  }
    }
 }
 
       break;
+    	case 'h_gatter2':
 
 
-
-       	  case 'h_gatter2':
-
-
-       	  	if(active_line1 != active_line2 && active_column1 != active_column2 ){
+   if(active_line1 != active_line2 && active_column1 != active_column2 ){
     let wrong_message = '<p class="tutorial_text">Wähle eine Spalte oder eine Zeile!</p>';
 	notifyPlayer(wrong_message);
+		 modal_buttons.style.display = 'none';
+    pass_modal.style.display = 'inline-block';
 	}
   else{
 	if(active_line1 == active_line2){
@@ -381,38 +434,39 @@ let active_column2 = combination[1].charAt(2);
 	}
 	   if(manipulation_column){
 		   for(let i=0; i<3; i++){ 
-		    if(working_sequence[i][active_column1] ==2){
+		    if(working_sequence[i][active_column1] ==2 ){
 			  working_sequence[i][active_column1] =3; 	
 			}
 			else if(working_sequence[i][active_column1] ==3){
 			working_sequence[i][active_column1] =2;
             }  
+
          }
        }
 
    else{
 	for(let i=0; i<3; i++){
-		if(working_sequence[active_line1][i] ==2){
-		  working_sequence[active_line1][i] =3; 	
+		 
+		if(working_sequence[active_line1][i] ==2 ){	
+		  working_sequence[active_line1][i] = 3; 
+
 		}
-		else if(working_sequence[active_line1][i] ==3){
-		  working_sequence[active_line1][i] = 2; 	
-		} 
+		else if(working_sequence[active_line1][i] ==3){		
+		  working_sequence[active_line1][i] = 2; 		  
+		}
+
+		
 	  }
    }
 }
 	
 	    break;
-
-
-
-	
-
       case 'swap_gatter':
 		  let first_swap = working_sequence[active_line1][active_column1];
 		  let second_swap  = working_sequence[active_line2][active_column2];
 	      working_sequence[active_line1][active_column1] = second_swap;
-	      working_sequence[active_line2][active_column2] = first_swap;     
+	      working_sequence[active_line2][active_column2] = first_swap;  
+  
 	  break;
 	    case 'snot_gatter':
 	      let control = working_sequence[active_line2][active_column2];
@@ -420,41 +474,7 @@ let active_column2 = combination[1].charAt(2);
   
 	   break;	    
 	}
-
-   resetGameState();
-    let a =solvedLevel(working_sequence, solution_sequence[level]);
-    if(a==true){
-      ++level;  
-      alert(level);
-      if(level==8){
-        let final_message = '<p class="tutorial_title_text">Glückwunsch!</p><p class="tutorial_text">Du hast alles richtig gelöst!</p>';
-    	notification_modal.classList.add('final');
-        notifyPlayer(final_message);
-        pass_modal.style.display = 'none';
-        return; 
-
-      }
-         working_sequence = sequence.map(sub => sub.slice());   
-         current_level.innerText = level+1;
-    	 moves =0;
-         available_moves = max_moves[level];
-         current_move.innerText = moves;
-         max_moves_text.innerText = available_moves;
-         back_move.classList.remove('active');
-
-         createPattern(level);
-         buildGame(sequence);
-    	if(level ==2 || level ==4 || level==6){    		
-          checkTutorial();
-          cleanTutorial();
-          fadeIn(tutorial_show);          
-    	}
-    	else{    			    
-    	let win = '<p class="tutorial_title_text">Glückwunsch!</p><p class="tutorial_text">Du hast diesen Level richtig gelöst!</p>';
-    	pass_modal.style.display = 'inline_block'; 
-        notifyPlayer(win); 
-    	}	
-    }
+   checkUpSequence();
 
 }
 let gatterItems = document.querySelectorAll('.game_gatter'),
@@ -517,7 +537,7 @@ window.onload = function() {
 	box = document.getElementById('box');
 	solution = document.getElementById('solution');
 	createPattern(level);
-	buildGame(sequence);	
+	buildGame(sequence);
 }
 
 information.addEventListener('click', function(){
@@ -585,6 +605,7 @@ pass_modal.addEventListener('click', function(e){
 level_redone.addEventListener('click', function(e){
     closeModal();
 	moves =0;
+	working_sequence = sequence.map(sub => sub.slice());
 	available_moves = max_moves[level];
 	current_move.innerText = moves;
 	max_moves_text.innerText = available_moves;
@@ -596,4 +617,268 @@ to_level.addEventListener('click', function(e){
   checkTutorial();
   cleanTutorial();  
 });
+
+
+let quibit_startx;
+let quibit_starty;
+let initial_id;
+let initial;
+let el;
+function touchStart(e){
+  if(moves>=available_moves){
+    overMoves();
+    return;
+  }
+  else{
+	let touchobj = e.changedTouches[0];
+	e.preventDefault();
+    quibit_startx = parseInt(touchobj.clientX);
+    quibit_starty = parseInt(touchobj.clientY);
+	el = e.target || window.event;   
+	if(el.classList.contains('quants')){
+	   initial = e.target.parentNode;
+	}
+	else{
+	   initial = e.target;
+	}
+	initial_id =initial.getAttribute('id'); 
+	
+  }
+}  
+function touchMove(e){
+    e.preventDefault();
+}
+function handleLine(active_line){
+for(let i=0; i<3; i++){
+  	  let id = active_line + ' ' + i;              
+      document.getElementById(id).classList.add('active');
+      combination.unshift(id); 
+    }
+    setTimeout('applyHorizontalGatter()', 1200);  	
+}
+function handleColumn(active_column){
+for(let i=0; i<3; i++){                
+       let id = i + ' ' + active_column;
+        combination.unshift(id);
+        document.getElementById(id).classList.add('active');
+      } 
+      setTimeout('applyVerticalGatter()', 1200); 	
+}
+
+
+function touchEnd(e){
+  if(moves>=available_moves){
+
+    return;
+  }
+else{
+let touchobj = e.changedTouches[0];
+let dist_horizontal = parseInt(touchobj.clientX);
+let dist_vertical = parseInt(touchobj.clientY);
+let active_line = initial_id.charAt(0);
+let active_column = initial_id.charAt(2);
+let current_state = working_sequence.map(sub => sub.slice());
+playerGameState.moves.unshift(current_state);
+
+
+  if(Math.abs(dist_horizontal-quibit_startx <50 )){
+  	if(initial.classList.contains('active')){
+		  initial.classList.remove('active');		 
+		  let id_index = initial.getAttribute('id');
+
+				  if(combination.length>1){	
+				  	let active_index = combination.indexOf(id_index);
+				  	  combination.splice(active_index, 1);
+			  	   
+				  	  }
+					  else{		
+					  	combination = [];
+					  }
+      	
+		           }
+		else{
+
+			if(combination.length<2){			
+  	         initial.classList.add('active');	
+  	          combination.unshift(initial_id);
+             return;
+             }
+         else{
+
+
+		    let message =  '<p class="tutorial_text"> Wähle eine Zeile, eine Spalte oder nicht mehr als zwei Qubits!</p>';
+		    modal_buttons.style.display = 'none';
+		    pass_modal.style.display = 'inline-block';
+		    notifyPlayer(message);	
+		    console.log(combination);
+         }
+  	
+       }
+   }
+ else{
+
+	if(dist_horizontal<=quibit_startx && dist_vertical <=quibit_starty){
+	handleLine(active_line); 
+	}
+	else if(dist_horizontal>=quibit_startx && dist_vertical >=quibit_starty){
+	handleLine(active_line); 
+	}
+	else if (dist_horizontal<=quibit_startx && dist_vertical >=quibit_starty) {
+	handleColumn(active_column);
+	}
+	else if(dist_horizontal>=quibit_startx && dist_vertical <=quibit_starty){
+	handleColumn(active_column);  
+	}
+  }
+
+   }	
+}
+function checkUpSequence(){
+ resetGameState();
+    let a =solvedLevel(working_sequence, solution_sequence[level]);
+    if(a==true){
+      ++level;  
+
+      if(level==8){
+      	const finish = document.getElementById('finish'); 
+        finish.style.display = 'block';
+          return; 
+
+      }
+         working_sequence = sequence.map(sub => sub.slice());  
+         turnOnGatter(); 
+         current_level.innerText = level+1;
+    	 moves =0;
+         available_moves = max_moves[level];
+         current_move.innerText = moves;
+         max_moves_text.innerText = available_moves;
+         back_move.classList.remove('active');
+
+         createPattern(level);
+         buildGame(sequence);
+    	if(level ==2 || level ==4 || level==6){    		
+          checkTutorial();
+          cleanTutorial();
+          fadeIn(tutorial_show);          
+    	}
+    	else{    			    
+    	let win = '<p class="tutorial_title_text">Glückwunsch!</p><p class="tutorial_text">Du hast diesen Level richtig gelöst!</p>';
+    	
+        notifyPlayer(win);
+        modal_buttons.style.display = 'none';
+    	pass_modal.style.display = 'inline_block';  
+    	}	
+    }	
+}
+
+
+function applyHorizontalGatter(){
+   let active_line = combination[0].charAt(0);
+   let active_column = initial_id.charAt(2);
+
+switch (gatter_in_action) {
+	  case 'x_gatter':	
+	for(let i=0; i<3; i++){
+		if(working_sequence[active_line][i] ==1){
+		  working_sequence[active_line][i] =2; 	
+		}
+		else if(working_sequence[active_line][i] ==2){
+		  working_sequence[active_line][i] = 1; 	
+		} 
+	}
+    break;
+	  case 'h_gatter1':   
+	for(let i=0; i<3; i++){
+		if(working_sequence[active_line][i] ==1 || working_sequence[i][active_line1] ==2 ){
+		  working_sequence[active_line][i] =3; 	
+		}
+		else if(working_sequence[active_line][i] ==3){
+		  working_sequence[active_line][i] = 1; 	
+		} 
+	  }
+      break;
+    	case 'h_gatter2':   
+	for(let i=0; i<3; i++){	 		 
+		if(working_sequence[active_line][i] ==2 ){	
+		  working_sequence[active_line][i] = 3;
+		}
+		else if(working_sequence[active_line][i] ==3){		
+		  working_sequence[active_line][i] = 2; 		  
+		}
+	}
+	
+	    break;
+	     case 'swap_gatter':
+		  let first_swap = working_sequence[active_line][active_column];
+		  let second_swap  = working_sequence[active_line][active_column];
+	      working_sequence[active_line][active_column] = second_swap;
+	      working_sequence[active_line][active_column] = first_swap;  
+  
+	  break;
+	    case 'snot_gatter':
+	      let control = working_sequence[active_line][active_column];
+	      working_sequence[active_line][active_column] = control;       
+  
+	   break;	    
+	}
+
+  checkUpSequence();
+
+}
+
+function applyVerticalGatter(){
+
+   let active_line = combination[0].charAt(0);
+   let active_column = initial_id.charAt(2);
+    switch (gatter_in_action) {
+	  case 'x_gatter':	   
+		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column] ==1){
+			  working_sequence[i][active_column] =2; 	
+			}
+			else if(working_sequence[i][active_column] ==2){
+			working_sequence[i][active_column] =1;
+            }  
+         }
+
+	    break;
+	  case 'h_gatter1':
+
+   		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column] ==1  || working_sequence[i][active_column1] ==2){
+			  working_sequence[i][active_column] =3; 	
+			}
+			else if(working_sequence[i][active_column] ==3){
+			working_sequence[i][active_column] =1;
+            }  
+         }
+      break;
+    	case 'h_gatter2':  
+		   for(let i=0; i<3; i++){ 
+		    if(working_sequence[i][active_column1] ==2 ){
+			  working_sequence[i][active_column] =3; 	
+			}
+			else if(working_sequence[i][active_column] ==3){
+			working_sequence[i][active_column] =2;
+            } 
+         }       
+	    break;
+      case 'swap_gatter':
+		  let first_swap = working_sequence[active_line][active_column];
+		  let second_swap  = working_sequence[active_line][active_column];
+	      working_sequence[active_line][active_column] = second_swap;
+	      working_sequence[active_line][active_column] = first_swap;  
+  
+	  break;
+	    case 'snot_gatter':
+	      let control = working_sequence[active_line][active_column];
+	      working_sequence[active_line1][active_column] = control;       
+  
+	   break;	    
+	}
+
+  checkUpSequence();
+
+}
+
 
