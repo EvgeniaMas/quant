@@ -32,6 +32,27 @@ margin:auto;
 max-width: 1366px;
 position: relative;
 }
+.tutorial_page{
+background-color: #a0d8e7;
+position: absolute;
+padding: 0;
+padding-top: 30px;
+padding-bottom: 30px;
+z-index: 10;
+top: 0;
+right: 0;
+left:0;
+margin: 0 auto;	
+display: none;
+min-height: 100vh;
+background-image: url('../img/game_bg.jpg');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+}
+#tutorial_show{
+display: block;
+}
 .top_blocks{
 position: absolute;
 top: 0;
@@ -106,11 +127,7 @@ text-align: right;
 .button_block.tutorial{
 text-align: center;	
 }
-.quant_field{
-background-color: #4f81bd;
-min-height: 100vh;
-padding: 0;
-}
+
 p.tutorial_text{
 margin-bottom: 40px;
 font-family:"Montserrat_Medium";
@@ -135,17 +152,6 @@ text-transform: uppercase;
 padding: 0;
 display: none;
 }
-.tutorial_page{
-background-image: url('../img/game_bg.jpg');
-background-position: center;
-background-size: cover;
-background-repeat: no-repeat;
-min-height: 100vh;
-padding: 0;
-position: relative;
-padding-top: 30px;
-padding-bottom: 30px;
-}
 #close{
 text-align: right;
 font-size: 30px;
@@ -159,19 +165,6 @@ z-index: 23;
 }
 .tutorial_section.active{
 display: block;
-}
-.tutorial_page{
-position: absolute;
-z-index: 10;
-top: 0;
-right: 0;
-left:0;
-margin: 0 auto;	
-display: none;
-min-height: 100vh;
-}
-#tutorial_show{
-/*display: block;*/
 }
 #first_tutorial_table{
 margin: 0 auto;
@@ -310,7 +303,6 @@ z-index: 15;
 border-radius: 20px;
 text-align: center;
 }
-
 #close_modal{
 text-align: right;
 font-size: 30px;
@@ -386,7 +378,27 @@ margin-bottom: 30px;
 #h_gatter1, #h_gatter2, #swap_gatter, #snot_gatter{
 display: none;
 } 
-
+#finish{
+position: absolute;
+background-color: #fff;
+background-image: url('../img/final.gif');
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;	
+height: 100vh;
+width: 100%;
+z-index: 12;
+top: 0;
+left: 0;
+right: 0;
+padding-top: 200px;
+display: none;
+}
+.quant_field{
+background-color: #4f81bd;
+min-height: 100vh;
+padding: 0;
+}
 @media (max-width: 1366px) {
 #box{
 padding-top: 14vh;
@@ -412,7 +424,7 @@ padding-top: 40px;
 }
 #close {
 font-size: 32px;
-top: 0;
+top: -15px;
 right: 0px;
 }
 .game_button{
@@ -453,21 +465,3 @@ font-size: 19px;
 line-height: 24px;
 }
 }
-
-#finish{
-position: absolute;
-background-color: #fff;
-background-image: url('../img/final.gif');
-background-position: center;
-background-size: cover;
-background-repeat: no-repeat;	
-height: 100vh;
-width: 100%;
-z-index: 12;
-top: 0;
-left: 0;
-right: 0;
-padding-top: 200px;
-display: none;
-}
-

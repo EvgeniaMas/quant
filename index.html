@@ -12,43 +12,8 @@
 <div id="overlay">
 </div>
 	<body class="quant_field">
-		<div class="container">
-			<div class="top_blocks">
-		   <div id="solution"></div>		   		
-		   <div class="stat_block">
-				<span class="game_stat">Level <span id="current_level">1</span>/8</span>
-				<span class="game_stat moves">Züge <span id="current_move">0</span>/<span id="max_moves_text">2</span></span>
-		    </div>
-		  </div>
-		<div id="box"></div>
-		<div class="gatter_block">
-			<p class="gatter_block_title">Quantengatter</p>
-         <button class="game_gatter active" id="x_gatter">X <br> gatter</button>
-         <button class="game_gatter" id="h_gatter1">H0<br>gatter</button>
-         <button class="game_gatter" id="h_gatter2">H1<br>gatter</button>
-         <button class="game_gatter" id="swap_gatter">SWAP<br>gatter</button>
-         <button class="game_gatter" id="snot_gatter">SNOT<br>gatter</button>
-		</div>
-	    <div class="button_block">
-			<button class="game_button grey" id="back_move">Rückgängig</button>
-			<button class="game_button" id="information">Info?</button>			
-	   </div>
-	   <div id="notification_modal">
-			<div id="close_modal">x</div>
-            <div id="notification_message"></div>
-            <button class="game_button blue" id="pass_modal">Weiter ></button>
-            <div id="modal_buttons">
-              <button class="game_button blue" id="back_move_modal">Rückgängig</button> 
-              <button class="game_button blue" id="level_redone">Wiederholen ></button> 
-            </div>
-		</div>
-	</div> <!-- container -->
-
-	<div id="finish">
-      <p class="tutorial_title_text">Glückwunsch!</p><p class="tutorial_text">Du hast alles richtig gelöst!</p>
-	</div>
-   <!-- tutorial -->
-		<div class="tutorial_page" id = "tutorial_show">
+     <!-- tutorial -->
+		<div class="tutorial_page" id ="tutorial_show">
 			<div class="container">
 			<div id="close">x</div>
 			<div class="tutorial_block1 tutorial_section active">
@@ -73,7 +38,6 @@
 		        <td><div class="black_quant"></div></td>
 		         <td><p  class="tutorial_text">Ein schwarzer Kreis stellt den Zustand 1 dar</p></td>
 		       	</tr>
-
 		     <tr>
 		        <td><div class="sup_quant"></div></td>
 		         <td><p  class="tutorial_text">Ein grauer Kreis stellt die Superposition dar
@@ -184,18 +148,50 @@
 			    <p  class="tutorial_text">Unser Zielqubitist nun schwarz geworden, hat also den Zustand geändert. Ist unser Kontrollqubit0, so ändert sich nichts am Zielqubit. <br> Wiederholen CNOT Wenn du die Funktionsweise verstanden hast, dann klicke auf den Button „Zu Level 7“, ansonsten kannst du noch rumprobieren, und wenn du so weit bist, kannst du das Level 7 starten. </p>
 			</div>
 		    </div> <!-- container -->
-
              <div class="button_block tutorial">
 					<button class="game_button  blue disabled" id="back_tutorial" >< Zurück</button>
 					<button class="game_button blue" id="next_tutorial">Weiter ></button>
 					<button class="game_button blue" id="to_level">Zu Level 1 ></button>
 			   </div> 
-
-		</div> <!-- tutorial -->
-
+		</div> <!-- end of tutorial -->
 
 
-  
+		<div class="container">
+			<div class="top_blocks">
+		   <div id="solution"></div>		   		
+		   <div class="stat_block">
+				<span class="game_stat">Level <span id="current_level">1</span>/8</span>
+				<span class="game_stat moves">Züge <span id="current_move">0</span>/<span id="max_moves_text">2</span></span>
+		    </div>
+		  </div>
+		<div id="box"></div>
+		<div class="gatter_block">
+			<p class="gatter_block_title">Quantengatter</p>
+         <button class="game_gatter active" id="x_gatter">X <br> gatter</button>
+         <button class="game_gatter" id="h_gatter1">H0<br>gatter</button>
+         <button class="game_gatter" id="h_gatter2">H1<br>gatter</button>
+         <button class="game_gatter" id="swap_gatter">SWAP<br>gatter</button>
+         <button class="game_gatter" id="snot_gatter">SNOT<br>gatter</button>
+		</div>
+	    <div class="button_block">
+			<button class="game_button grey" id="back_move">Rückgängig</button>
+			<button class="game_button" id="information">Info?</button>			
+	   </div>
+	   <div id="notification_modal">
+			<div id="close_modal">x</div>
+            <div id="notification_message"></div>
+            <button class="game_button blue" id="pass_modal">Weiter ></button>
+            <div id="modal_buttons">
+              <button class="game_button blue" id="back_move_modal">Rückgängig</button> 
+              <button class="game_button blue" id="level_redone">Wiederholen ></button> 
+            </div>
+		</div>
+	</div> <!-- container -->
+	<div id="finish">
+      <p class="tutorial_title_text">Glückwunsch!</p><p class="tutorial_text">Du hast alles richtig gelöst!</p>
+	</div>
+
+     
     <script type="text/javascript" src="js/script.js"></script>
 	</body>	
 </html>
