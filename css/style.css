@@ -29,7 +29,7 @@ overflow-x: hidden;
 .container{
 width: 90vw;
 margin:auto;
-max-width: 1366px;
+max-width: 1200px;
 position: relative;
 }
 .tutorial_page{

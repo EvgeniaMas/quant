@@ -34,7 +34,6 @@ let solution_sequence = [  [[3,2,2], [2,2,2], [1,3,3]],
 
 let moves =0;
 let level = 0;
-turnOnGatter();
 let max_moves = [2,3,2,3,2,2,2,3];
 let available_moves = max_moves[level];
 let box, solution;
@@ -242,8 +241,10 @@ const snot_gatter = document.getElementById('snot_gatter');
 		snot_gatter.style.display = 'none'; 	
 	}
     else if(level ==5){
-      x_gatter.style.display = 'none';
-		h_gatter1.style.display = 'inline-block'; 		
+    
+        x_gatter.style.display = 'none';
+		h_gatter1.style.display = 'inline-block';
+				
 	    h_gatter2.style.display = 'inline-block'; 
 		swap_gatter.style.display = 'inline-block'; 
 		snot_gatter.style.display = 'none';
@@ -285,13 +286,31 @@ function resetGameState(){
  }
 }
 function applyGatter(gatter){
-if(combination.length<2){
+if(combination.length==0){
 	let empty_message = '<p class="tutorial_text">Du hast nichts gewählt!</p>';
+
 	notifyPlayer(empty_message);
 	 modal_buttons.style.display = 'none';
     pass_modal.style.display = 'inline-block'; 
     return false;
    }
+
+   else if(combination.length<2){
+      let errors_committed;
+   	if(gatter_in_action=='swap_gatter' || gatter_in_action == 'snot_gatter'){
+   		errors_committed = '<p class="tutorial_text">Wähle zwei Qubits!</p>';
+   	}
+
+   	else{
+   	errors_committed = '<p class="tutorial_text">Wähle eine Zeile oder eine Spalte!</p>';
+   	} 		
+
+	notifyPlayer(errors_committed);
+	 modal_buttons.style.display = 'none';
+    pass_modal.style.display = 'inline-block'; 
+    return false;
+   }
+
 	let current_state = working_sequence.map(sub => sub.slice());
 	playerGameState.moves.unshift(current_state);
 	let manipulation_line;
@@ -378,17 +397,17 @@ if(combination.length<2){
 
        case 'swap_gatter':
 		  swapGatter();
-		  return;
+		
   
 	  break;
 	    case 'snot_gatter':
 	      snotGatter();
-	      return;
+	    
 	   break;
 
     
 	}
-   checkUpSequence();
+   // checkUpSequence();
 }
 // swap, snot gates
 function swapGatter(){
@@ -429,6 +448,28 @@ let gatterItems = document.querySelectorAll('.game_gatter'),
        }
        active_gatter.classList.add('active');
        gatter_in_action = active_gatter.getAttribute('id');
+
+       if(combination.length==2){
+               	if(gatter_in_action== 'swap_gatter'){
+             		swapGatter();
+             	}
+             	else if(gatter_in_action == 'snot_gatter'){
+             		snotGatter();
+             	}
+
+
+            else if(combination.length==1){
+           	let two_message = '<p class="tutorial_text"> Wähle zwei Qubits!</p>'
+             	notifyPlayer(two_message);
+	            modal_buttons.style.display = 'none';
+                pass_modal.style.display = 'inline-block';
+                document.getElementById(combination[0]).classList.remove('active');
+                combination = [];
+             }
+           }
+
+
+
 
 
         event.preventDefault();
@@ -544,8 +585,10 @@ function applyHorizontalGatter(){
 function applyVerticalGatter(){
    let active_line = combination[0].charAt(0);
    let active_column = combination[0].charAt(2);
+
     switch (gatter_in_action) {
-	  case 'x_gatter':	   
+	  case 'x_gatter':	
+
 		   for(let i=0; i<3; i++){ 
 		    if(working_sequence[i][active_column] ==1){
 			  working_sequence[i][active_column] =2; 	
@@ -656,6 +699,7 @@ pass_modal.addEventListener('click', function(e){
 level_redone.addEventListener('click', function(e){
     closeModal();
 	moves =0;
+	back_move.classList.remove('active');
 	working_sequence = sequence.map(sub => sub.slice());
 	available_moves = max_moves[level];
 	current_move.innerText = moves;
@@ -698,12 +742,14 @@ function touchMove(e){
     e.preventDefault();
 }
 function handleLine(active_line){
+
 for(let i=0; i<3; i++){
-  	  let id = active_line + ' ' + i;              
+  	  let id = active_line + ' ' + i; 
+
       document.getElementById(id).classList.add('active');
       combination.unshift(id); 
     }
-    setTimeout('applyHorizontalGatter()', 1200);  	
+    setTimeout('applyHorizontalGatter()', 1000);  	
 }
 function handleColumn(active_column){
 for(let i=0; i<3; i++){                
@@ -711,7 +757,7 @@ for(let i=0; i<3; i++){
         combination.unshift(id);
         document.getElementById(id).classList.add('active');
       } 
-      setTimeout('applyVerticalGatter()', 1200); 	
+      setTimeout('applyVerticalGatter()', 1000); 	
 }
 function touchEnd(e){
   if(moves>=available_moves){
@@ -726,10 +772,8 @@ let active_line = initial_id.charAt(0);
 let active_column = initial_id.charAt(2);
 let current_state = working_sequence.map(sub => sub.slice());
 playerGameState.moves.unshift(current_state);
-  if(Math.abs(dist_horizontal-quibit_startx <50 )){
 
-   
-
+  if(Math.abs(dist_horizontal-quibit_startx) <30 ){
 
   	if(initial.classList.contains('active')){
 		  initial.classList.remove('active');		 
@@ -771,7 +815,13 @@ playerGameState.moves.unshift(current_state);
 		    let message =  '<p class="tutorial_text"> Wähle eine Zeile, eine Spalte oder nicht mehr als zwei Qubits!</p>';
 		    modal_buttons.style.display = 'none';
 		    pass_modal.style.display = 'inline-block';
-		    notifyPlayer(message);		
+		    notifyPlayer(message);
+
+		    for(let i=0; i<combination.length; i++){
+		    	document.getElementById(combination[i].classList.remove('active'));
+		    }
+
+		    combination = [];		
          }
   	
        }
@@ -780,16 +830,20 @@ playerGameState.moves.unshift(current_state);
 
 
  else{
+
 		if(dist_horizontal<=quibit_startx && dist_vertical <=quibit_starty){
 		handleLine(active_line); 
 		}
-		else if(dist_horizontal>=quibit_startx && dist_vertical >=quibit_starty){
+		else if(dist_horizontal>=quibit_startx && dist_vertical >= quibit_starty){
+			
 		handleLine(active_line); 
 		}
 		else if (dist_horizontal<=quibit_startx && dist_vertical >=quibit_starty) {
+			
 		handleColumn(active_column);
 		}
 		else if(dist_horizontal>=quibit_startx && dist_vertical <=quibit_starty){
+		
 		handleColumn(active_column);  
 		}
      }
